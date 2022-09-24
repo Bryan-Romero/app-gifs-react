@@ -1,0 +1,28 @@
+
+form {
+    display: flex;
+    gap: 20px;
+}
+
+form input {
+    width: 2fr;
+    font-size: 25px;
+    border-radius: 5px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: none;
+    padding: 0 5px 0 5px;
+}
+
+form button {
+    width: 1fr;
+    font-size: 25px;
+    color: white;
+    background-color: royalblue;
+    border: none;
+    border-radius: 5px;
+}
+
+form button:hover{
+    cursor: pointer;
+}

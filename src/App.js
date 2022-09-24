@@ -16,7 +16,7 @@ function App() {
       <div className="App">
         <section className='App-content'>
           <Link to='/'>
-            <h1>APP GIFS</h1>
+            <h1>APP GIFS BRYAN</h1>
           </Link>
           <GifsContextProvider>
             <Route

@@ -1,3 +1,7 @@
 a:hover {
     color: darkcyan;
 }
+
+.sigleCategory{
+    display: inline-block;
+}

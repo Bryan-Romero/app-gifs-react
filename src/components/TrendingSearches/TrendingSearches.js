@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import getTrendingTermsService from "services/getTrendingTermsService"
 
 
-function TrendigSearches(){
+function TrendingSearches(){
     const [trends, setTrends] = useState([])
 
     useEffect(function (){
@@ -13,4 +13,4 @@ function TrendigSearches(){
     return <Category options={trends} name={'Trending'}/>
 }
 
-export default TrendigSearches
+export default TrendingSearches
