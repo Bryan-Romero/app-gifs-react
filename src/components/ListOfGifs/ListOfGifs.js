@@ -5,12 +5,13 @@ export default function ListOFGifs({gifs}){
     
     return (
         <div className="ListOfGifs">{ 
-            gifs.map(sigleGif => 
+            gifs.map(({id, title, url, ...restOfGifs}) => 
             <Gif 
-            key={sigleGif.id}
-            id={sigleGif.id}
-            title={sigleGif.title} 
-            url={sigleGif.url} 
+            key={id}
+            id={id}
+            title={title} 
+            url={url} 
+            extraInfo={restOfGifs}
             />)
         }</div>
     )
