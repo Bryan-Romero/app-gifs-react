@@ -4,6 +4,8 @@ import ListOFGifs from "components/ListOfGifs/ListOfGifs";
 import useNearScreen from "hooks/useNearScreen";
 import { useCallback, useEffect, useRef } from "react";
 import debounce from "just-debounce-it";
+import useSEO from "hooks/useSEO";
+import { Helmet } from "react-helmet";
 
 
 
@@ -15,6 +17,7 @@ export default function SearchGifs({params}){
         externalRef: loading? null : externalRef, 
         once:false
     })
+    const title = gifs ? `${gifs.length} Results of ${decodeURI(keyword)}` : ''
 
     //const debounceHandleNextPage = useRef()
     //const handleNextPage = () => console.log('next page')
@@ -34,8 +37,20 @@ export default function SearchGifs({params}){
         <>
             {
                 loading
-                ? <Spinner />
-                : <>
+                ? 
+                <>
+                    <Helmet>
+                        <title>Loading... | GIFty</title>
+                    </Helmet>
+                    <Spinner />
+                </>
+                : 
+                <>
+                    <Helmet>
+                        <title>{`${title} | GIFty`}</title>
+                        <meta name="description" content={title}/>
+                        <meta name="rating" content="General"/>
+                    </Helmet>
                     <h3>{decodeURI(keyword)}</h3>
                     <ListOFGifs gifs={gifs}/>
                     <div id="visor" ref={externalRef}></div>
