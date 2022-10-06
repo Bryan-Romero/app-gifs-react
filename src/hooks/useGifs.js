@@ -20,7 +20,7 @@ function useGifs({keyword} = {keyword: null}){
             console.log(keywordToUse)
             setGifs(gifs)
             setLoading(false)
-            localStorage.setItem('lastKeyword', keyword)//save keyword in localStorage
+            typeof(keyword) !== 'object' && localStorage.setItem('lastKeyword', keyword)//save keyword in localStorage
         })
     }, [keyword, setGifs, keywordToUse])
 
