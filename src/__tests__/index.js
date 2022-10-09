@@ -15,7 +15,7 @@ test('has work as expected', async () => {
 test('search form could be used', async () => {
     render(<App />)
     const input =  await screen.findByRole('textbox')
-    const button = await screen.findByRole('button')
+    const button = await screen.findByRole('button', { name: 'Search' });
     
     fireEvent.change(input, { target: {value: 'CR7'} })
     fireEvent.click(button)
