@@ -10,10 +10,10 @@ import { GifsContextProvider } from './context/GifsContext';
 function App() {
 
   const location = useLocation()
-
+  /*
   useEffect(() => {
       window.scrollTo(0, 0)
-  }, [location])
+  }, [location])*/
 
   return (
     <StaticContext.Provider value={{
@@ -32,7 +32,7 @@ function App() {
             />
             <Route
               component={SearchGifs}
-              path='/search/:keyword'
+              path='/search/:keyword/:rating?/:lang?'
             />
             <Route
               component={Detail}

@@ -1,5 +1,4 @@
-import React, {useCallback, useState } from "react";
-import { useLocation } from "wouter";
+import React from "react";
 import Spinner from "components/Spinner/Spinner";
 import useGifs from "hooks/useGifs";
 import ListOFGifs from "components/ListOfGifs/ListOfGifs";
@@ -9,12 +8,8 @@ import "./index.css"
 import { Helmet } from "react-helmet";
 
 function Home(){
-    const [, pushLocation] = useLocation()
-    const {gifs, loading, setPage} = useGifs()
 
-    const handleSubmit = useCallback(({keyword}) => {
-        pushLocation(`/search/${keyword}`)
-    }, [pushLocation])
+    const {gifs, loading, setPage} = useGifs()
 
     const handleNextPage = () => setPage(prevPage => prevPage + 1)
 
@@ -24,7 +19,7 @@ function Home(){
                 <title>Home | GIFty</title>
                 <meta name="description" content='Searching gifs'/>
             </Helmet>
-            <SearchForm onSubmitParent={handleSubmit}/>
+            <SearchForm />
             <h3>Last search</h3>
             {
                 loading
