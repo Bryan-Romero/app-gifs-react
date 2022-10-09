@@ -17,7 +17,6 @@ function useGifs({keyword, rating, lang} = {keyword: null}){
         setLoading(true)
 
         getGifs({keyword : keywordToUse, rating, lang}).then(gifs => {
-            console.log(keywordToUse + ' ' + lang)
             setGifs(gifs)
             setLoading(false)
             typeof(keyword) !== 'object' && localStorage.setItem('lastKeyword', keyword)//save keyword in localStorage

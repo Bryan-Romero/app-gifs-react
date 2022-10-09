@@ -30,7 +30,6 @@ export default function SearchGifs({params}){
     ,[])
 
     useEffect(() => {
-        console.log(isNearScreen)
         if(isNearScreen) debounceHandleNextPage()
     },[debounceHandleNextPage, isNearScreen])
 
