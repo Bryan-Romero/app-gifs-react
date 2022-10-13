@@ -1,3 +1,4 @@
+import Favorites from "components/Favarites/Favorites";
 import React from "react";
 import { Link } from "wouter";
 import './Gif.css'
@@ -5,6 +6,9 @@ import './Gif.css'
 function Gif({title, id, url}){
     return (
         <div className="Gif">
+            <div className="gif-Buttons">
+                <Favorites idGif={id}/>
+            </div>
             <Link to={`/gif/${id}`} className='Gif-link'>
                 <h4>{title}</h4>
                 <img loading='lazy' alt={title} src={url} />
