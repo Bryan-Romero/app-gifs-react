@@ -1,6 +1,7 @@
 import axios from "../../api/axios";
 import React, { useState } from "react";
 import './SignUp.css'
+import { Link } from "wouter";
 
 const SignUp = () => {
 
@@ -66,47 +67,70 @@ const SignUp = () => {
     }
 
     return(
-        <form className="signUpForm" onSubmit={e => handleSubmit(e)}>
-            <label>Name</label>
-            <input 
-                type='text' 
-                placeholder="Name" 
-                value={data.name} 
-                onChange={e => handleOnChange(e, 'name')}
-            />
-            <label>Lastname</label>
-            <input 
-                type='text' 
-                placeholder="Lastname" 
-                value={data.lastName} 
-                onChange={e => handleOnChange(e, 'lastName')}
-            />
-            <label>Email</label>
-            <input 
-                type='email' 
-                placeholder="Email" 
-                value={data.email} 
-                onChange={e => handleOnChange(e, 'email')}
-            />
-            <label>Password</label>
-            <input 
-                type='password' 
-                placeholder="Password" 
-                value={data.passwor} 
-                onChange={e => handleOnChange(e, 'password')}
-            />
-            <label>Comfirm password</label>
-            <input 
-                type='password' 
-                placeholder="Comfirm password" 
-                value={data.passwor} 
-                onChange={e => handleOnChange(e, 'comfirmPassword')}
-            />
-            <input
-                type='submit' 
-                value='Sign Up'
-            />
-        </form>
+        <>
+            <form className="si-su-form" onSubmit={e => handleSubmit(e)}>
+                <label className="si-su-label"
+                >
+                    Name
+                    <input 
+                        className="si-su-input"
+                        type='text' 
+                        placeholder="Name" 
+                        value={data.name} 
+                        onChange={e => handleOnChange(e, 'name')}
+                    />
+                </label>
+                
+                <label className="si-su-label">
+                    Lastname
+                    <input
+                        className="si-su-input"
+                        type='text' 
+                        placeholder="Lastname" 
+                        value={data.lastName} 
+                        onChange={e => handleOnChange(e, 'lastName')}
+                    />
+                </label>
+                
+                <label className="si-su-label">
+                    Email
+                    <input 
+                        className="si-su-input"
+                        type='email' 
+                        placeholder="Email" 
+                        value={data.email} 
+                        onChange={e => handleOnChange(e, 'email')}
+                    />
+                </label>
+                
+                <label className="si-su-label">
+                    Password
+                    <input
+                        className="si-su-input"
+                        type='password' 
+                        placeholder="Password" 
+                        value={data.passwor} 
+                        onChange={e => handleOnChange(e, 'password')}
+                    />
+                </label>
+                
+                <label className="si-su-label">
+                    Comfirm password
+                    <input 
+                        className="si-su-input"
+                        type='password' 
+                        placeholder="Comfirm password" 
+                        value={data.passwor} 
+                        onChange={e => handleOnChange(e, 'comfirmPassword')}
+                    />
+                </label>
+                
+                <button className="si-su-button" type="submit" value='Sign Up'>Sign Up</button>
+            </form>
+            <div className="account">
+                <label className="account-label">Already have an account? <Link to="/login/signin" className="account-link">Sign in</Link></label>
+            </div>
+        </>
     )
 }
 export default SignUp

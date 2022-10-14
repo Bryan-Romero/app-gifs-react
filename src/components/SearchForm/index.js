@@ -64,15 +64,16 @@ function SearchForm({
     };
 
     return (
-        <form onSubmit={handleSubmit} onReset={handleReset}>
+        <form className="search-form" onSubmit={handleSubmit} onReset={handleReset}>
             <input
+                className="search-input"
                 onChange={handleChange}
-                type="text"
+                type="search"
                 value={keyword}
                 placeholder="Search a gif here"
             />
             {/* <small>{times}</small> */}
-            <button type="submit" value="Search">
+            <button className="search-button" type="submit" value="Search">
                 Search
             </button>
             <select onChange={handleChangeRating} value={rating}>

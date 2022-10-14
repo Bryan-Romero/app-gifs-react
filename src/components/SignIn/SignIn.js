@@ -1,10 +1,9 @@
-import axios from "api/axios";
 import useUser from "hooks/useUser";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 import './SignIn.css'
 
-const SignIn = () => {
+const SignIn = ({ onLogin }) => {
 
     const initialData = {
         email: '',
@@ -28,38 +27,47 @@ const SignIn = () => {
     useEffect(() => {
         if(isLogged){
             navigate('/')
+            onLogin && onLogin()
         }
-    }, [isLogged])
+    }, [isLogged, navigate, onLogin])
 
     if(isLoginLoading) return
 
     return(
-        <form className="signInForm" onSubmit={e => handleSubmit(e)}>
-            <label>Email</label>
-            <input 
-                type='email' 
-                placeholder="Email" 
-                value={data.email} 
-                onChange={e => handleOnChange(e, 'email')}
-            />
-            <label>Password</label>
-            <input 
-                type='password' 
-                placeholder="Password" 
-                value={data.passwor} 
-                onChange={e => handleOnChange(e, 'password')}
-            />
-            <input
-                type='submit' 
-                value='Sign In'
-            />
-            {
-                isLoginLoading && <strong>Ckecking credentials..</strong>
-            }
-            {
-                hasLoadingError && <strong>Credential are invalid</strong>
-            }
-        </form>
+        <>
+            <form className="si-su-form" onSubmit={e => handleSubmit(e)}>
+                <label className="si-su-label">
+                    Email
+                    <input
+                        className="si-su-input"
+                        type='email' 
+                        placeholder="Email" 
+                        value={data.email} 
+                        onChange={e => handleOnChange(e, 'email')}
+                    />
+                </label>
+                <label className="si-su-label">
+                    Password
+                    <input
+                        className="si-su-input"
+                        type='password' 
+                        placeholder="Password" 
+                        value={data.passwor} 
+                        onChange={e => handleOnChange(e, 'password')}
+                    />
+                </label>
+                <button className="si-su-button" type="submit" value='Sign In'>Sign In</button>
+                {
+                    isLoginLoading && <strong className="ckecking">Ckecking credentials..</strong>
+                }
+                {
+                    hasLoadingError && <strong className="invalid">Credential are invalid</strong>
+                }
+            </form>
+            <div className="account">
+                <p className="account-txt">New to GIFty? <Link to="/login/signup" className="account-link">Create an account.</Link></p>
+            </div>
+        </>
     )
 }
 export default SignIn
