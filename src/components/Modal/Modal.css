@@ -1,0 +1,28 @@
+.modal {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.modal-content {
+    background-color: #282c34;
+    width: 300px;
+    padding: 10px 20px 20px 20px;
+    margin: 10vh auto;
+    position: relative;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.closed-btn {
+    display: block;
+    width: fit-content;
+    margin-bottom: 32px;
+    margin-left: auto;
+    cursor: pointer;
+}

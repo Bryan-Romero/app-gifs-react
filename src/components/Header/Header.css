@@ -1,0 +1,21 @@
+.gf-header {
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: right;
+    gap: 15px;
+    padding: 0px 15px;
+}
+
+.gf-header .signIn, .signUp, .logOut {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 7px;
+    background-color: cornflowerblue;
+    color: aliceblue;
+}
+
+.gf-header .signIn:hover, .signUp:hover, .logOut:hover {
+    filter: brightness(110%);
+}

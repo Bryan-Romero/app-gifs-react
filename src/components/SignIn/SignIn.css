@@ -1,0 +1,82 @@
+.si-su-form {
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 10px;
+    background-color: rgba(22, 22, 30, 0.3);
+    border: 1px solid #fff;
+    padding: 20px 0;
+}
+
+.si-su-label, .si-su-button {
+    margin: 0 20px;
+}
+
+.si-su-label {
+    width: 1fr;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    font-size: 25px;
+}
+
+.si-su-input {
+    width: 1fr;
+    padding: 5px;
+    border: none;
+    font-size: 25px;
+    border-radius: 7px;
+    margin-top: 5px;
+    background-color: rgb(22, 22, 30);
+    color: #FFF;
+}
+.si-su-input::placeholder {
+    color: rgba(255, 255, 255, 0.644);
+}
+
+.si-su-button {
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: rgb(149, 94, 188);
+    color: #FFF;
+    font-size: 25px;
+    font-weight: 500;
+}
+.si-su-button:hover {
+    background-color: rgba(149, 94, 188, 0.735);
+}
+
+.ckecking, .invalid {
+    margin: 0 20px;
+    text-align: center;
+}
+
+.account {
+    max-width: 400px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: rgba(22, 22, 30, 0.139);
+    border: 1px solid #fff;
+    margin-top: 20px;
+    padding: 20px 0;
+}
+
+.account-txt{
+    margin: 0 20px;
+    text-align: center;
+}
+
+.account *{
+    font-size: 20px;
+}
+
+.account-link {
+    color: #58a6ff;
+}
+.account-link:hover {
+    text-decoration: underline;
+}
