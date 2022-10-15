@@ -1,9 +1,9 @@
 import axios from "api/axios";
 
 const signUpService = async ({ name, lastName, email, password }) => {
-    
+    console.log('signup')
     try {
-        const response = await axios.post('/signUpUser', {
+        await axios.post('/signUpUser', {
             name,
             lastName,
             email,
@@ -13,13 +13,11 @@ const signUpService = async ({ name, lastName, email, password }) => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        });
-        if(response.statusText){
-            console.log(response)
-            const {message} = response.data
-            return message
-        }
+        }).then(res => {
+            return true
+        })
     } catch(e) {
+        console.log(e.message)
         throw new Error(e.response.data.message)
     }
     

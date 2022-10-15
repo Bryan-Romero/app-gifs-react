@@ -49,10 +49,9 @@
 .si-su-button:hover {
     background-color: rgba(149, 94, 188, 0.735);
 }
-
-.ckecking, .invalid {
-    margin: 0 20px;
-    text-align: center;
+.si-su-button[disabled] {
+    opacity: .3;
+    pointer-events: none;
 }
 
 .account {
@@ -79,4 +78,14 @@
 }
 .account-link:hover {
     text-decoration: underline;
+}
+
+.invalid {
+    color: red; 
+    text-align: left;
+    font-size: small;
+}
+
+.error {
+    border: 1px solid red;
 }
