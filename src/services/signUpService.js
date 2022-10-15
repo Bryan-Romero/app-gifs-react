@@ -1,8 +1,11 @@
 import axios from "api/axios";
 
-const signInService = async ({email, password}) => {
+const signUpService = async ({ name, lastName, email, password }) => {
+    
     try {
-        const response = await axios.post('/signInUser', {
+        const response = await axios.post('/signUpUser', {
+            name,
+            lastName,
             email,
             password
         },
@@ -12,12 +15,13 @@ const signInService = async ({email, password}) => {
             }
         });
         if(response.statusText){
-            const {token} = response.data
-            return token
+            console.log(response)
+            const {message} = response.data
+            return message
         }
     } catch(e) {
         throw new Error(e.response.data.message)
     }
     
 }
-export default signInService
+export default signUpService

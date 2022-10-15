@@ -1,19 +1,20 @@
-import axios from "../../api/axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './SignUp.css'
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
+import useUser from "hooks/useUser";
 
-const SignUp = () => {
+const SignUp = () => { 
 
-    const initialData = {
+    const [data, setData] = useState({
         name: '',
         lastName: '',
         email: '',
         password: '',
         comfirmPassword: ''
-    } 
+    })
+    const [, navigate] = useLocation()
+    const {isRegister, register, isLoading, hasError, messageError} = useUser()
 
-    const [data, setData] = useState(initialData)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,41 +22,14 @@ const SignUp = () => {
             alert('Different passwords')
             return
         }
-        try {
-            const response = await axios.post('/signUpUser', {
-                name: data.name,
-                lastName: data.lastName,
-                email: data.email,
-                password: data.password
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            console.log(response);
-        } catch(e) {
-            console.log(e);
-        }
+        
+        register({
+            name: data.name,
+            lastName: data.lastName,
+            email: data.email,
+            password: data.password
+        })
     }
-    /*
-    const handlePost = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('/post', {
-            },
-            {
-                headers: {
-                    'authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjpbeyJpZFVzZXIiOjI2LCJuYW1lIjoiQnJ5YW4iLCJsYXN0TmFtZSI6IlJvbWVybyJ9XSwiaWF0IjoxNjY1NDY4MzM3LCJleHAiOjE2NjU0NjgzNjl9.gyFiZXLYri-X2pXoW7kiZnEtsxCqwkZGD_topXGPSXM'
-                }
-            });
-
-            console.log(response);
-        } catch(e) {
-            console.log(e);
-        }
-    }*/
 
     const validatePassword = () => {
         return data.password !== data.comfirmPassword
@@ -65,6 +39,12 @@ const SignUp = () => {
         e.preventDefault();
         setData({ ...data, [property]: e.target.value });
     }
+
+    useEffect(() => {
+        if(isRegister){
+            navigate('/login/signin')
+        }
+    }, [isRegister, navigate])
 
     return(
         <>
@@ -78,6 +58,7 @@ const SignUp = () => {
                         placeholder="Name" 
                         value={data.name} 
                         onChange={e => handleOnChange(e, 'name')}
+                        required
                     />
                 </label>
                 
@@ -89,6 +70,7 @@ const SignUp = () => {
                         placeholder="Lastname" 
                         value={data.lastName} 
                         onChange={e => handleOnChange(e, 'lastName')}
+                        required
                     />
                 </label>
                 
@@ -100,6 +82,7 @@ const SignUp = () => {
                         placeholder="Email" 
                         value={data.email} 
                         onChange={e => handleOnChange(e, 'email')}
+                        required
                     />
                 </label>
                 
@@ -111,6 +94,7 @@ const SignUp = () => {
                         placeholder="Password" 
                         value={data.passwor} 
                         onChange={e => handleOnChange(e, 'password')}
+                        required
                     />
                 </label>
                 
@@ -122,10 +106,16 @@ const SignUp = () => {
                         placeholder="Comfirm password" 
                         value={data.passwor} 
                         onChange={e => handleOnChange(e, 'comfirmPassword')}
+                        required
                     />
                 </label>
-                
                 <button className="si-su-button" type="submit" value='Sign Up'>Sign Up</button>
+                {
+                    isLoading && <strong className="ckecking">Ckecking data..</strong>
+                }
+                {
+                    hasError && <strong className="invalid">Data are invalid {messageError}</strong>
+                }
             </form>
             <div className="account">
                 <label className="account-label">Already have an account? <Link to="/login/signin" className="account-link">Sign in</Link></label>

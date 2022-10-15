@@ -12,7 +12,7 @@ const SignIn = ({ onLogin }) => {
 
     const [data, setData] = useState(initialData)
     const [, navigate] = useLocation()
-    const {login, isLogged, isLoginLoading, hasLoadingError} = useUser()
+    const {login, isLogged, isLoading, hasError, messageError} = useUser()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,7 +31,7 @@ const SignIn = ({ onLogin }) => {
         }
     }, [isLogged, navigate, onLogin])
 
-    if(isLoginLoading) return
+    if(isLoading) return
 
     return(
         <>
@@ -58,10 +58,10 @@ const SignIn = ({ onLogin }) => {
                 </label>
                 <button className="si-su-button" type="submit" value='Sign In'>Sign In</button>
                 {
-                    isLoginLoading && <strong className="ckecking">Ckecking credentials..</strong>
+                    isLoading && <strong className="ckecking">Ckecking credentials..</strong>
                 }
                 {
-                    hasLoadingError && <strong className="invalid">Credential are invalid</strong>
+                    hasError && <strong className="invalid">Credential are invalid {messageError}</strong>
                 }
             </form>
             <div className="account">
