@@ -1,21 +1,20 @@
 import React from "react"
-import { Link } from "wouter"
-import "./Category.css"
+import { CategoryTitle, CategoryList, CategoryItem, CategoryLink } from './styles'
 
 function Category({options = [], name = ''}){
     return (
-        <div className="categoryContainer">
-            <h1>{name}</h1>
-            {
-            options.map(sigleOption => (
-                <div key={sigleOption} className="sigleCategory">
-                    <Link to={`/search/${sigleOption}`}>
-                        Gif of {sigleOption} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </Link> 
-                </div>
-            ))
-            }
-        </div>
+        <section>
+            <CategoryTitle className="Category-title">{name}</CategoryTitle>
+            <CategoryList className="Category-list">
+                {options.map((singleOption, index) => (
+                <CategoryItem key={singleOption} index={index} className="Category-list-item">
+                    <CategoryLink className="Category-link" to={`/search/${singleOption}`}>
+                    {singleOption}
+                    </CategoryLink>
+                </CategoryItem>
+                ))}
+            </CategoryList>
+        </section>
     )
 }
 
