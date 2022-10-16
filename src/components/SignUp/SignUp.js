@@ -1,122 +1,154 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import './SignUp.css'
 import { Link, useLocation } from "wouter";
-import useUser from "hooks/useUser";
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import signUpService from "services/signUpService";
+
+
+const validateFields = (values, setState) => {
+    const customErrors = {}
+    if(!values.name){
+        customErrors.name = 'Requiere name'
+    }
+    if(!values.lastName){
+        customErrors.lastName = 'Requiere lastname'
+    }
+
+    if(!values.email) {
+        customErrors.email = 'Required email'
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        customErrors.email = 'Invalid email address'
+    }
+
+    if(!values.password){
+        customErrors.password = 'Requiere password'
+    } else if(values.password.length < 8){
+        customErrors.password = 'Password length mus be greater than 7'
+    }
+    if(!values.comfirmPassword){
+        customErrors.comfirmPassword = 'Requiere comfirm password'
+    }
+    if(values.password !== values.comfirmPassword){
+        customErrors.password = 'Are diferent password'
+        customErrors.comfirmPassword = 'Are diferent password'
+    }
+
+    const thereErrors = Object.keys(customErrors).length
+    if(thereErrors > 0){
+        setState(true)
+    } else if(thereErrors === 0) {
+        setState(false)
+    } 
+    
+    return customErrors
+}
+
+const handleSubmit = (values, setFieldError, navigate, setRegistered) => {
+        return (
+            signUpService({
+                name: values.name,
+                lastName: values.lastName,
+                email: values.email.toLowerCase(),
+                password: values.password
+            })
+            .then(() => {
+                setRegistered(true)
+                setTimeout(() => {
+                    navigate('/login/signin')
+                }, 3000);
+            })
+            .catch((e) => setFieldError('user', e.message))
+        )
+}
+
 
 const SignUp = () => { 
 
-    const [data, setData] = useState({
-        name: '',
-        lastName: '',
-        email: '',
-        password: '',
-        comfirmPassword: ''
-    })
+    const [registered, setRegistered] = useState(false)
+    const [state, setState] = useState(false) 
     const [, navigate] = useLocation()
-    const {isRegister, register, isLoading, hasError, messageError} = useUser()
-
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if(validatePassword()){
-            alert('Different passwords')
-            return
-        }
-        
-        register({
-            name: data.name,
-            lastName: data.lastName,
-            email: data.email,
-            password: data.password
-        })
+    
+    
+    if(registered) {
+        return <h3>Successful registration!</h3>
     }
-
-    const validatePassword = () => {
-        return data.password !== data.comfirmPassword
-    }
-
-    const handleOnChange = (e, property) => {
-        e.preventDefault();
-        setData({ ...data, [property]: e.target.value });
-    }
-
-    useEffect(() => {
-        if(isRegister){
-            navigate('/login/signin')
-        }
-    }, [isRegister, navigate])
 
     return(
         <>
-            <form className="si-su-form" onSubmit={e => handleSubmit(e)}>
-                <label className="si-su-label"
-                >
-                    Name
-                    <input 
-                        className="si-su-input"
-                        type='text' 
-                        placeholder="Name" 
-                        value={data.name} 
-                        onChange={e => handleOnChange(e, 'name')}
-                        required
-                    />
-                </label>
-                
-                <label className="si-su-label">
-                    Lastname
-                    <input
-                        className="si-su-input"
-                        type='text' 
-                        placeholder="Lastname" 
-                        value={data.lastName} 
-                        onChange={e => handleOnChange(e, 'lastName')}
-                        required
-                    />
-                </label>
-                
-                <label className="si-su-label">
-                    Email
-                    <input 
-                        className="si-su-input"
-                        type='email' 
-                        placeholder="Email" 
-                        value={data.email} 
-                        onChange={e => handleOnChange(e, 'email')}
-                        required
-                    />
-                </label>
-                
-                <label className="si-su-label">
-                    Password
-                    <input
-                        className="si-su-input"
-                        type='password' 
-                        placeholder="Password" 
-                        value={data.passwor} 
-                        onChange={e => handleOnChange(e, 'password')}
-                        required
-                    />
-                </label>
-                
-                <label className="si-su-label">
-                    Comfirm password
-                    <input 
-                        className="si-su-input"
-                        type='password' 
-                        placeholder="Comfirm password" 
-                        value={data.passwor} 
-                        onChange={e => handleOnChange(e, 'comfirmPassword')}
-                        required
-                    />
-                </label>
-                <button className="si-su-button" type="submit" value='Sign Up'>Sign Up</button>
+            <Formik
+                initialValues={{
+                    name: '',
+                    lastName: '',
+                    email: '',
+                    password: '',
+                    comfirmPassword: ''
+                }}
+                validate={values => validateFields(values, setState)}
+                onSubmit={(values, {setFieldError}) => handleSubmit(values, setFieldError, navigate, setRegistered)}
+                validateOnChange={state}
+                validateOnBlur={false}
+            >
                 {
-                    isLoading && <strong className="ckecking">Ckecking data..</strong>
+                    ({isSubmitting, errors, }) => (
+                        <Form className="si-su-form">
+                            <label className="si-su-label">
+                                Name
+                                <Field 
+                                    className={`si-su-input ${errors.name && 'error'}`}
+                                    type='text' 
+                                    placeholder="Name" 
+                                    name="name"
+                                />
+                                <ErrorMessage className="invalid" name="name" component='small'/>
+                            </label>
+                            <label className="si-su-label">
+                                Lastname
+                                <Field
+                                    className={`si-su-input ${errors.lastName && 'error'}`}
+                                    type='text' 
+                                    placeholder="Lastname" 
+                                    name="lastName"
+                                />
+                                <ErrorMessage className="invalid" name="lastName" component='small'/>
+                            </label>
+                            <label className="si-su-label">
+                                Email
+                                <Field 
+                                    className={`si-su-input ${errors.email && 'error'}`}
+                                    type='text' 
+                                    placeholder="Email"
+                                    name="email"
+                                />
+                                <ErrorMessage className="invalid" name="email" component='small'/>
+                            </label>
+                            <label className="si-su-label">
+                                Password
+                                <Field
+                                    className={`si-su-input ${errors.password && 'error'}`}
+                                    type='password' 
+                                    placeholder="Password" 
+                                    name="password"
+                                />
+                                <ErrorMessage className="invalid" name="password" component='small'/>
+                            </label>
+                            <label className="si-su-label">
+                                Comfirm password
+                                <Field 
+                                    className={`si-su-input ${errors.comfirmPassword && 'error'}`}
+                                    type='password' 
+                                    placeholder="Comfirm password"
+                                    name="comfirmPassword"
+                                />
+                                <ErrorMessage className="invalid" name="comfirmPassword" component='small'/>
+                            </label>
+                            <button className="si-su-button" type="submit" value='Sign Up' disabled={isSubmitting}>Sign Up</button>
+                            {
+                                isSubmitting && <small className="ckecking" >Ckecking data..</small>
+                            }
+                        </Form>
+                    )
                 }
-                {
-                    hasError && <strong className="invalid">Data are invalid {messageError}</strong>
-                }
-            </form>
+            </Formik>
             <div className="account">
                 <label className="account-label">Already have an account? <Link to="/login/signin" className="account-link">Sign in</Link></label>
             </div>
