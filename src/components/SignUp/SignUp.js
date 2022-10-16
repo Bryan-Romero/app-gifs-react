@@ -1,12 +1,77 @@
-import React, { useCallback } from "react";
+import React, { useState } from "react";
 import './SignUp.css'
 import { Link, useLocation } from "wouter";
-import { Formik } from 'formik'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import signUpService from "services/signUpService";
+
+
+const validateFields = (values, setState) => {
+    const customErrors = {}
+    if(!values.name){
+        customErrors.name = 'Requiere name'
+    }
+    if(!values.lastName){
+        customErrors.lastName = 'Requiere lastname'
+    }
+
+    if(!values.email) {
+        customErrors.email = 'Required email'
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        customErrors.email = 'Invalid email address'
+    }
+
+    if(!values.password){
+        customErrors.password = 'Requiere password'
+    } else if(values.password.length < 8){
+        customErrors.password = 'Password length mus be greater than 7'
+    }
+    if(!values.comfirmPassword){
+        customErrors.comfirmPassword = 'Requiere comfirm password'
+    }
+    if(values.password !== values.comfirmPassword){
+        customErrors.password = 'Are diferent password'
+        customErrors.comfirmPassword = 'Are diferent password'
+    }
+
+    const thereErrors = Object.keys(customErrors).length
+    if(thereErrors > 0){
+        setState(true)
+    } else if(thereErrors === 0) {
+        setState(false)
+    } 
+    
+    return customErrors
+}
+
+const handleSubmit = (values, setFieldError, navigate, setRegistered) => {
+        return (
+            signUpService({
+                name: values.name,
+                lastName: values.lastName,
+                email: values.email.toLowerCase(),
+                password: values.password
+            })
+            .then(() => {
+                setRegistered(true)
+                setTimeout(() => {
+                    navigate('/login/signin')
+                }, 3000);
+            })
+            .catch((e) => setFieldError('user', e.message))
+        )
+}
+
 
 const SignUp = () => { 
 
+    const [registered, setRegistered] = useState(false)
+    const [state, setState] = useState(false) 
     const [, navigate] = useLocation()
+    
+    
+    if(registered) {
+        return <h3>Successful registration!</h3>
+    }
 
     return(
         <>
@@ -18,136 +83,69 @@ const SignUp = () => {
                     password: '',
                     comfirmPassword: ''
                 }}
-                validate={values => {
-                    const customErrors = {}
-                    const regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}')
-                    if(!values.name){
-                        customErrors.name = 'Requiere name'
-                        return customErrors
-                    }
-                    if(!values.lastName){
-                        customErrors.lastName = 'Requiere lastname'
-                        return customErrors
-                    }
-
-                    if(!values.email){
-                        customErrors.email = 'Requiere email'
-                        return customErrors
-                    } else if(!regex.test(values.email)){
-                        customErrors.email = 'Invalid email'
-                        return customErrors
-                    }
-
-                    if(!values.password){
-                        customErrors.password = 'Requiere password'
-                        return customErrors
-                    } else if(values.password.length < 8){
-                        customErrors.password = 'Password length mus be greater than 7'
-                        return customErrors
-                    }
-                    
-                    if(!values.comfirmPassword){
-                        customErrors.comfirmPassword = 'Requiere comfirm password'
-                        return customErrors
-                    }
-                    return customErrors
-                }}
-                onSubmit={(values, {setFieldError}) => {
-                    if(values.password !== values.comfirmPassword) return alert('Are diferent password')
-                        return (
-                            signUpService({
-                                name: values.name,
-                                lastName: values.lastName,
-                                email: values.email.toLowerCase(),
-                                password: values.password
-                            })
-                            .then(() => navigate('/login/signin'))
-                            .catch((e) => setFieldError('user', e.message))
-                        )
-                    
-                    // register({
-                    //     name: data.name,
-                    //     lastName: data.lastName,
-                    //     email: data.email,
-                    //     password: data.password
-                    // })
-                }}
+                validate={values => validateFields(values, setState)}
+                onSubmit={(values, {setFieldError}) => handleSubmit(values, setFieldError, navigate, setRegistered)}
+                validateOnChange={state}
+                validateOnBlur={false}
             >
                 {
-                    ({handleSubmit, handleChange, isSubmitting, errors}) => (
-                        <form className="si-su-form" onSubmit={handleSubmit}>
+                    ({isSubmitting, errors, }) => (
+                        <Form className="si-su-form">
                             <label className="si-su-label">
                                 Name
-                                <input 
+                                <Field 
                                     className={`si-su-input ${errors.name && 'error'}`}
                                     type='text' 
                                     placeholder="Name" 
                                     name="name"
-                                    onChange={handleChange}
                                 />
-                                {console.log(errors)
-                                }
-                                {
-                                    errors.name && <small className="invalid" >{errors.name}</small>
-                                }
+                                <ErrorMessage className="invalid" name="name" component='small'/>
                             </label>
                             <label className="si-su-label">
                                 Lastname
-                                <input
+                                <Field
                                     className={`si-su-input ${errors.lastName && 'error'}`}
                                     type='text' 
                                     placeholder="Lastname" 
                                     name="lastName"
-                                    onChange={handleChange}
                                 />
-                                {
-                                    errors.lastName && <small className="invalid" >{errors.lastName}</small>
-                                }
+                                <ErrorMessage className="invalid" name="lastName" component='small'/>
                             </label>
                             <label className="si-su-label">
                                 Email
-                                <input 
+                                <Field 
                                     className={`si-su-input ${errors.email && 'error'}`}
                                     type='text' 
                                     placeholder="Email"
                                     name="email"
-                                    onChange={handleChange}
                                 />
-                                {
-                                    errors.email && <small className="invalid" >{errors.email}</small>
-                                }
+                                <ErrorMessage className="invalid" name="email" component='small'/>
                             </label>
                             <label className="si-su-label">
                                 Password
-                                <input
+                                <Field
                                     className={`si-su-input ${errors.password && 'error'}`}
                                     type='password' 
                                     placeholder="Password" 
                                     name="password"
-                                    onChange={handleChange}
                                 />
-                                {
-                                    errors.password && <small className="invalid" >{errors.password}</small>
-                                }
+                                <ErrorMessage className="invalid" name="password" component='small'/>
                             </label>
                             <label className="si-su-label">
                                 Comfirm password
-                                <input 
+                                <Field 
                                     className={`si-su-input ${errors.comfirmPassword && 'error'}`}
                                     type='password' 
                                     placeholder="Comfirm password"
                                     name="comfirmPassword"
-                                    onChange={handleChange}
                                 />
-                                {
-                                    errors.comfirmPassword && <small className="invalid" >{errors.comfirmPassword}</small>
-                                }
+                                <ErrorMessage className="invalid" name="comfirmPassword" component='small'/>
                             </label>
                             <button className="si-su-button" type="submit" value='Sign Up' disabled={isSubmitting}>Sign Up</button>
                             {
                                 isSubmitting && <small className="ckecking" >Ckecking data..</small>
                             }
-                        </form>
+                        </Form>
                     )
                 }
             </Formik>

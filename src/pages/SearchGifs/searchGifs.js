@@ -4,7 +4,6 @@ import ListOFGifs from "components/ListOfGifs/ListOfGifs";
 import useNearScreen from "hooks/useNearScreen";
 import { useCallback, useEffect, useRef } from "react";
 import debounce from "just-debounce-it";
-import useSEO from "hooks/useSEO";
 import { Helmet } from "react-helmet";
 import SearchForm from "components/SearchForm";
 
@@ -12,7 +11,8 @@ import SearchForm from "components/SearchForm";
 
 export default function SearchGifs({params}){
     const {keyword, rating, lang} = params
-    const {gifs, loading, setPage} = useGifs({keyword, rating , lang: decodeURI(lang).substring(lang.length -5, lang.length -3 )})
+    
+    const {gifs, loading, setPage} = useGifs({keyword, rating , lang: lang && decodeURI(lang).substring(lang.length -5, lang.length -3 )})
     const externalRef = useRef()
     const {isNearScreen} = useNearScreen({
         externalRef: loading? null : externalRef, 
