@@ -1,7 +1,7 @@
 import useUser from "hooks/useUser";
 import React from "react";
 import { Link, useRoute } from "wouter";
-import './Header.css'
+import { Header as HeaderComponet, Button, ButtonLogout, HeaderContent } from './styles'
 
 const Header = () => {
 
@@ -15,28 +15,29 @@ const Header = () => {
     }
 
     return(
-        <header className="gf-header">
-            {isLogged
-                ?<>
-                    <label className="logOut" onClick={handleLogOut}>Log out</label>
-                </>
-                :<>
-                    {match
-                        ? null
-                        :<>
-                            <Link to="/login/signin">
-                                <label className="signIn">Sign in</label>
-                            </Link>
-                            <Link to="/login/signup">
-                                <label className="signUp">Sign up</label>
-                            </Link>
-                        </>
-                    }
-                    
-                </>
-            }
-            
-        </header>
+        <HeaderComponet className="gf-header">
+            <HeaderContent>
+                {isLogged
+                    ?<>
+                        <ButtonLogout className="logOut" onClick={handleLogOut}>Log out</ButtonLogout>
+                    </>
+                    :<>
+                        {match
+                            ? null
+                            :<>
+                                <Button type={'primary'} to="/login/signin">
+                                    Sign in
+                                </Button>
+                                <Button type={'primary'} to="/login/signup">
+                                    Sign up
+                                </Button>
+                            </>
+                        }
+                        
+                    </>
+                }
+            </HeaderContent>
+        </HeaderComponet>
     )
 }
 export default Header

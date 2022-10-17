@@ -58,10 +58,17 @@ const SignIn = ({ onLogin }) => {
                 </label>
                 <button className="si-su-button" type="submit" value='Sign In'>Sign In</button>
                 {
-                    isLoading && <strong className="ckecking">Ckecking credentials..</strong>
+                    isLoading && 
+                        <label className="si-su-label">
+                            <small className="ckecking">Ckecking credentials..</small>
+                        </label>
+
                 }
                 {
-                    hasError && <strong className="invalid">Credential are invalid {messageError}</strong>
+                    hasError && 
+                        <label className="si-su-label">
+                            <small className="invalid">Credential are invalid {messageError}</small>
+                        </label>
                 }
             </form>
             <div className="account">

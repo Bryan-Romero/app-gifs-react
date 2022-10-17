@@ -4,8 +4,8 @@ import useGifs from "hooks/useGifs";
 import ListOFGifs from "components/ListOfGifs/ListOfGifs";
 import TrendigSearches from "components/TrendingSearches";
 import SearchForm from "components/SearchForm";
-import "./index.css"
 import { Helmet } from "react-helmet";
+import { HomeContent, GifContent, Button, TitleH3, GifCategoryContent, TrendingContent } from "./styles";
 
 function Home(){
 
@@ -19,15 +19,24 @@ function Home(){
                 <title>Home | GIFty</title>
                 <meta name="description" content='Searching gifs'/>
             </Helmet>
-            <SearchForm />
-            <h3>Last search</h3>
-            {
-                loading
-                ? <Spinner />
-                : <ListOFGifs gifs={gifs}/>
-            }
-            <button className="btnNextPage" onClick={handleNextPage}>Get next page</button>
-            <TrendigSearches/>
+            
+            <HomeContent>
+                <SearchForm />
+                <GifCategoryContent>
+                    <GifContent>
+                        <TitleH3>Last search</TitleH3>
+                        {
+                            loading
+                            ? <Spinner />
+                            : <ListOFGifs gifs={gifs}/>
+                        }
+                        <Button onClick={handleNextPage} type='primary'>Show more</Button>
+                    </GifContent>
+                    <TrendingContent>
+                        <TrendigSearches />
+                    </TrendingContent>
+                </GifCategoryContent>
+            </HomeContent>
         </>
     )
 }

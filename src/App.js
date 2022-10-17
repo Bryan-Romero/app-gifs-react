@@ -1,29 +1,23 @@
-import React, { useEffect } from "react";
-import "./App.css";
-import { Link, Route, useLocation } from "wouter";
+import React  from "react";
+import { Link, Route } from "wouter";
 import Home from "./pages/Home";
 import SearchGifs from "./pages/SearchGifs/searchGifs";
-import StaticContext from "./context/StaticContext";
 import Detail from "./pages/Detail";
 import { GifsContextProvider } from "./context/GifsContext";
 import { UserContextProvider } from "context/UserContext";
 import LogIn from "pages/LogIn/LogIn";
 import Header from "components/Header/Header";
+import { App as AppWindow, AppContent, Title } from './App.styles'
 
 function App() {
-  const location = useLocation();
-  /*
-  useEffect(() => {
-      window.scrollTo(0, 0)
-  }, [location])*/
 
   return (
     <UserContextProvider>
-      <div className="App">
+      <AppWindow>
         <Header />
-        <section className="App-content">
-          <Link to="/">
-            <h1>GIFty</h1>
+        <AppContent className="App-content">
+          <Link to={'/'}>
+            <Title>GIFty</Title>
           </Link>
           <GifsContextProvider>
             <Route component={Home} path="/" />
@@ -35,10 +29,11 @@ function App() {
             <Route component={LogIn} path="/login/:type?" />
             <Route component={() => <h1>404 ERROR :(</h1>} path="/404" />
           </GifsContextProvider>
-        </section>
-      </div>
+        </AppContent>
+      </AppWindow>
     </UserContextProvider>
   );
+
 }
 
 export default App;

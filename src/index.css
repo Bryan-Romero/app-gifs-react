@@ -8,10 +8,13 @@
   --zIndex-component: 5;
   --brand-color_1: #00ff99;
   --brand-color_2: #00ccff;
-  --brand-color_3: #9933ff;
+  --brand-color_3: #ff00b7;
   --brand-color_4: tomato;
   --brand-color_5: #fff35c;
   --brand-color_6: #8429de;
+  --width-category-desktop: 300px;
+  --width-category-tablet: 250px;
+  --width-category-smartphone: 100%;
 }
 
 body {

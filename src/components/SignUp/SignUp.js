@@ -57,7 +57,7 @@ const handleSubmit = (values, setFieldError, navigate, setRegistered) => {
                     navigate('/login/signin')
                 }, 3000);
             })
-            .catch((e) => setFieldError('user', e.message))
+            .catch((e) => setFieldError('dataError', e.message))
         )
 }
 
@@ -81,7 +81,8 @@ const SignUp = () => {
                     lastName: '',
                     email: '',
                     password: '',
-                    comfirmPassword: ''
+                    comfirmPassword: '',
+                    dataError: ''
                 }}
                 validate={values => validateFields(values, setState)}
                 onSubmit={(values, {setFieldError}) => handleSubmit(values, setFieldError, navigate, setRegistered)}
@@ -91,6 +92,9 @@ const SignUp = () => {
                 {
                     ({isSubmitting, errors, }) => (
                         <Form className="si-su-form">
+                            <label className="si-su-label">
+                                <ErrorMessage className="invalid" name="dataError" component='small'/>
+                            </label>
                             <label className="si-su-label">
                                 Name
                                 <Field 
@@ -142,9 +146,6 @@ const SignUp = () => {
                                 <ErrorMessage className="invalid" name="comfirmPassword" component='small'/>
                             </label>
                             <button className="si-su-button" type="submit" value='Sign Up' disabled={isSubmitting}>Sign Up</button>
-                            {
-                                isSubmitting && <small className="ckecking" >Ckecking data..</small>
-                            }
                         </Form>
                     )
                 }

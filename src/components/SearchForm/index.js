@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "wouter";
 import useForm from "./hook";
-import "./index.css";
+import { Form, SearchButton, SearchInput } from './styles.js'
 
 const RATINGS = [
     "g",
@@ -32,8 +32,6 @@ function SearchForm({
         rating,
         lang,
         updateKeyword,
-        updateRating,
-        updateLang,
         resetFilter
     } = useForm({
         initialKeyword,
@@ -55,17 +53,12 @@ function SearchForm({
         updateKeyword(evt.target.value)
     };
 
-    const handleChangeRating = (evt) => {
-        updateRating(evt.target.value)
-    };
-
-    const handleChangeLang = (evt) => {
-        updateLang(evt.target.value)
-    };
-
     return (
-        <form className="search-form" onSubmit={handleSubmit} onReset={handleReset}>
-            <input
+        <Form className="search-form" onSubmit={handleSubmit} onReset={handleReset}>
+            <SearchButton className="search-button" type="submit" value="Search">
+                Search
+            </SearchButton>
+            <SearchInput
                 className="search-input"
                 onChange={handleChange}
                 type="search"
@@ -73,25 +66,24 @@ function SearchForm({
                 placeholder="Search a gif here"
             />
             {/* <small>{times}</small> */}
-            <button className="search-button" type="submit" value="Search">
-                Search
-            </button>
-            <select onChange={handleChangeRating} value={rating}>
-                <option disabled>Rating types</option>
-                {RATINGS.map((rating) => (
-                    <option key={rating}>{rating}</option>
-                ))}
-            </select>
-            <select onChange={handleChangeLang} value={lang}>
-                <option disabled>Supported Languages</option>
-                {LANG.map((lang) => (
-                    <option key={lang}>{lang}</option>
-                ))}
-            </select>
-            <button type="reset" value="Reset Filters">
-                Reset Filters
-            </button>
-        </form>
+        </Form>
     );
 }
 export default React.memo(SearchForm);
+
+
+/* <select onChange={handleChangeRating} value={rating}>
+    <option disabled>Rating types</option>
+    {RATINGS.map((rating) => (
+        <option key={rating}>{rating}</option>
+    ))}
+</select>
+<select onChange={handleChangeLang} value={lang}>
+    <option disabled>Supported Languages</option>
+    {LANG.map((lang) => (
+        <option key={lang}>{lang}</option>
+    ))}
+</select>
+<button type="reset" value="Reset Filters">
+    Reset Filters
+</button> */

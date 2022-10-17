@@ -35,6 +35,9 @@
 .si-su-input::placeholder {
     color: rgba(255, 255, 255, 0.644);
 }
+.si-su-input:focus {
+    outline: none;
+}
 
 .si-su-button {
     border: none;
@@ -81,11 +84,12 @@
 }
 
 .invalid {
-    color: red; 
+    color: rgb(160, 50, 50); 
     text-align: left;
     font-size: small;
+    font-weight: 600;
 }
 
 .error {
-    border: 1px solid red;
+    border: 1px solid rgb(160, 50, 50);
 }
