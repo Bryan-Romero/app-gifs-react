@@ -8,7 +8,7 @@ export const Header = styled.header`
 `
 
 export const HeaderContent = styled.header`
-    width: 60%;
+    width: 80%;
     height: 100%;
     display: flex;
     margin: auto;

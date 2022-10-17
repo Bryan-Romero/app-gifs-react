@@ -2,7 +2,7 @@ import axios from "api/axios";
 
 const signInService = async ({email, password}) => {
     try {
-        const response = await axios.post('/signInUser', {
+        await axios.post('/signInUser', {
             email,
             password
         },
@@ -10,13 +10,15 @@ const signInService = async ({email, password}) => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        });
-        if(response.statusText){
-            const {token} = response.data
+        })
+        .then(res => {
+            const {token} = res.data
             return token
-        }
+        })
     } catch(e) {
-        throw new Error(e.response.data.message)
+        console.log(e.message)
+        // e.response.data.message
+        throw new Error(e.message)
     }
     
 }

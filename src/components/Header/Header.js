@@ -1,6 +1,6 @@
 import useUser from "hooks/useUser";
 import React from "react";
-import { Link, useRoute } from "wouter";
+import { useRoute } from "wouter";
 import { Header as HeaderComponet, Button, ButtonLogout, HeaderContent } from './styles'
 
 const Header = () => {
@@ -19,7 +19,7 @@ const Header = () => {
             <HeaderContent>
                 {isLogged
                     ?<>
-                        <ButtonLogout className="logOut" onClick={handleLogOut}>Log out</ButtonLogout>
+                        <ButtonLogout type={'primary'} onClick={handleLogOut}>Log out</ButtonLogout>
                     </>
                     :<>
                         {match

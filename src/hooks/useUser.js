@@ -11,7 +11,6 @@ export default function useUser () {
     const [state, setState] = useState({
         loading: false,
         error: false,
-        messageError: '', 
         register: ''
     })
 
@@ -20,13 +19,16 @@ export default function useUser () {
         try{
             const token = await signInService({ email, password })
             window.sessionStorage.setItem('jwt', token)
-            setState({ loading: false, error: false , messageError: ''})
+            setState({ loading: false, error: false })
             setJWT(token)
+            console.log(token);
+            
         }catch(e){
             window.sessionStorage.removeItem('jwt')
-            setState({ loading: false, error: true, messageError: e.message })
+            setState({ loading: false, error: true })
             setJWT(null)
-            console.log(e)
+            console.log(e.message)
+            throw new Error(e.message)
         }
     }, [setJWT])
 
@@ -35,10 +37,11 @@ export default function useUser () {
         
         try{
             const register = await signUpService({ name, lastName, email, password })
-            setState({ loading: false, error: false , messageError: '', register})
+            setState({ loading: false, error: false , register})
         }catch(e){
-            setState({ loading: false, error: true, messageError: e.message, register: '' })
+            setState({ loading: false, error: true, register: '' })
             console.log(e.message)
+            throw new Error(e.message)
         }
     }, [])
 
@@ -72,7 +75,6 @@ export default function useUser () {
         isRegister: Boolean(state.register),
         isLoading: state.loading,
         hasError: state.error,
-        messageError: state.messageError,
         login,
         logOut,
         addFav,

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import './SignUp.css'
-import { Link, useLocation } from "wouter";
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { useLocation } from "wouter";
+import { Formik } from 'formik'
 import signUpService from "services/signUpService";
+import { Form, Label, Input, Button, ErrorMessage, AccountDiv, Text, Link } from 'styles/styles'
+import Spinner from "components/Spinner/Spinner";
 
 
 const validateFields = (values, setState) => {
@@ -27,10 +28,6 @@ const validateFields = (values, setState) => {
     }
     if(!values.comfirmPassword){
         customErrors.comfirmPassword = 'Requiere comfirm password'
-    }
-    if(values.password !== values.comfirmPassword){
-        customErrors.password = 'Are diferent password'
-        customErrors.comfirmPassword = 'Are diferent password'
     }
 
     const thereErrors = Object.keys(customErrors).length
@@ -90,69 +87,72 @@ const SignUp = () => {
                 validateOnBlur={false}
             >
                 {
-                    ({isSubmitting, errors, }) => (
-                        <Form className="si-su-form">
-                            <label className="si-su-label">
-                                <ErrorMessage className="invalid" name="dataError" component='small'/>
-                            </label>
-                            <label className="si-su-label">
+                    ({ isSubmitting, errors }) => (
+                        <Form disabled={isSubmitting}>
+                            <Label>
+                                <ErrorMessage name="dataError" component='small'/>
+                            </Label>
+                            <Label>
                                 Name
-                                <Field 
-                                    className={`si-su-input ${errors.name && 'error'}`}
+                                <Input 
                                     type='text' 
                                     placeholder="Name" 
                                     name="name"
+                                    errors={errors.name}
                                 />
-                                <ErrorMessage className="invalid" name="name" component='small'/>
-                            </label>
-                            <label className="si-su-label">
+                                <ErrorMessage name="name" component='small'/>
+                            </Label>
+                            <Label>
                                 Lastname
-                                <Field
-                                    className={`si-su-input ${errors.lastName && 'error'}`}
+                                <Input
                                     type='text' 
                                     placeholder="Lastname" 
                                     name="lastName"
+                                    errors={errors.lastName}
                                 />
-                                <ErrorMessage className="invalid" name="lastName" component='small'/>
-                            </label>
-                            <label className="si-su-label">
+                                <ErrorMessage name="lastName" component='small'/>
+                            </Label>
+                            <Label>
                                 Email
-                                <Field 
-                                    className={`si-su-input ${errors.email && 'error'}`}
+                                <Input
                                     type='text' 
                                     placeholder="Email"
                                     name="email"
+                                    errors={errors.email}
                                 />
-                                <ErrorMessage className="invalid" name="email" component='small'/>
-                            </label>
-                            <label className="si-su-label">
+                                <ErrorMessage name="email" component='small'/>
+                            </Label>
+                            <Label>
                                 Password
-                                <Field
-                                    className={`si-su-input ${errors.password && 'error'}`}
+                                <Input
                                     type='password' 
                                     placeholder="Password" 
                                     name="password"
+                                    errors={errors.password}
                                 />
-                                <ErrorMessage className="invalid" name="password" component='small'/>
-                            </label>
-                            <label className="si-su-label">
+                                <ErrorMessage name="password" component='small'/>
+                            </Label>
+                            <Label>
                                 Comfirm password
-                                <Field 
-                                    className={`si-su-input ${errors.comfirmPassword && 'error'}`}
+                                <Input 
                                     type='password' 
                                     placeholder="Comfirm password"
                                     name="comfirmPassword"
+                                    errors={errors.comfirmPassword}
                                 />
-                                <ErrorMessage className="invalid" name="comfirmPassword" component='small'/>
-                            </label>
-                            <button className="si-su-button" type="submit" value='Sign Up' disabled={isSubmitting}>Sign Up</button>
+                                <ErrorMessage name="comfirmPassword" component='small'/>
+                            </Label>
+                            <Button type="submit" value='Sign Up' disabled={isSubmitting}>Sign Up</Button>
+                            {
+                                isSubmitting && <Spinner/>
+                            }
                         </Form>
                     )
                 }
             </Formik>
-            <div className="account">
-                <label className="account-label">Already have an account? <Link to="/login/signin" className="account-link">Sign in</Link></label>
-            </div>
+            <AccountDiv>
+                <Text>Already have an account? <Link to="/login/signin">Sign in</Link></Text>
+            </AccountDiv>
         </>
     )
 }

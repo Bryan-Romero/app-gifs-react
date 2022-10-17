@@ -42,6 +42,7 @@ export default function SearchGifs({params}){
                     <Helmet>
                         <title>Loading... | GIFty</title>
                     </Helmet>
+                    
                     <Spinner />
                 </>
                 : 
@@ -51,6 +52,7 @@ export default function SearchGifs({params}){
                         <meta name="description" content={title}/>
                         <meta name="rating" content="General"/>
                     </Helmet>
+
                     <SearchForm initialKeyword={keyword} initialRating={rating} initialLang={decodeURI(lang)}/>
                     <h3>{decodeURI(keyword)}</h3>
                     <ListOFGifs gifs={gifs}/>

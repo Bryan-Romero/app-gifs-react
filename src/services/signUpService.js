@@ -13,12 +13,13 @@ const signUpService = async ({ name, lastName, email, password }) => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(res => {
+        }).then(() => {
             return true
         })
     } catch(e) {
         console.log(e.message)
-        throw new Error(e.response.data.message)
+        // e.response.data.message
+        throw new Error(e.message)
     }
     
 }

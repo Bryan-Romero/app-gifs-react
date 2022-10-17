@@ -1,28 +1,48 @@
 import useUser from "hooks/useUser";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "wouter";
-import './SignIn.css'
+import { useLocation } from "wouter";
+import { Formik } from 'formik'
+import { Form, Label, Input, Button, ErrorMessage, AccountDiv, Text, Link } from 'styles/styles'
+import Spinner from "components/Spinner/Spinner";
+
+const validateFields = (values, setState) => {
+    const customErrors = {}
+    if(!values.email) {
+        customErrors.email = 'Required email'
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        customErrors.email = 'Invalid email address'
+    }
+
+    if(!values.password){
+        customErrors.password = 'Requiere password'
+    }
+
+    const thereErrors = Object.keys(customErrors).length
+    if(thereErrors > 0){
+        setState(true)
+    } else if(thereErrors === 0) {
+        setState(false)
+    } 
+    
+    return customErrors
+}
+
+const handleSubmit = (login, values, setFieldError) => {
+    return (
+        login({
+            email: values.email.toLowerCase(),
+            password: values.password
+        })
+        .catch((e) => setFieldError('dataError', e.message))
+    )
+}
+
 
 const SignIn = ({ onLogin }) => {
 
-    const initialData = {
-        email: '',
-        password: ''
-    } 
-
-    const [data, setData] = useState(initialData)
+    const {login, isLogged, isLoading} = useUser()
+    const [state, setState] = useState(false) 
     const [, navigate] = useLocation()
-    const {login, isLogged, isLoading, hasError, messageError} = useUser()
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        login({email: data.email, password: data.password})
-    }
-
-    const handleOnChange = (e, property) => {
-        e.preventDefault();
-        setData({ ...data, [property]: e.target.value });
-    }
 
     useEffect(() => {
         if(isLogged){
@@ -31,49 +51,56 @@ const SignIn = ({ onLogin }) => {
         }
     }, [isLogged, navigate, onLogin])
 
-    if(isLoading) return
-
     return(
         <>
-            <form className="si-su-form" onSubmit={e => handleSubmit(e)}>
-                <label className="si-su-label">
-                    Email
-                    <input
-                        className="si-su-input"
-                        type='email' 
-                        placeholder="Email" 
-                        value={data.email} 
-                        onChange={e => handleOnChange(e, 'email')}
-                    />
-                </label>
-                <label className="si-su-label">
-                    Password
-                    <input
-                        className="si-su-input"
-                        type='password' 
-                        placeholder="Password" 
-                        value={data.passwor} 
-                        onChange={e => handleOnChange(e, 'password')}
-                    />
-                </label>
-                <button className="si-su-button" type="submit" value='Sign In'>Sign In</button>
-                {
-                    isLoading && 
-                        <label className="si-su-label">
-                            <small className="ckecking">Ckecking credentials..</small>
-                        </label>
+            <Formik
+                initialValues={{
+                    email: '',
+                    password: '',
+                    dataError: ''
+                }}
+                validate={values => validateFields(values, setState)}
+                onSubmit={(values, {setFieldError}) => {handleSubmit(login, values, setFieldError)}}
+                validateOnChange={state}
+                validateOnBlur={false}
+            >
+                {({ errors }) => (
+                    <Form disabled={isLoading}>
+                        <Label>
+                            <ErrorMessage name="dataError" component='small'/>
+                        </Label>
+                        <Label>
+                            Name
+                            <Input 
+                                type='text' 
+                                placeholder="Email" 
+                                name="email"
+                                errors={errors.email}
+                            />
+                            <ErrorMessage name="email" component='small'/>
+                        </Label>
+                        <Label>
+                            Password
+                            <Input 
+                                type='password' 
+                                placeholder="Password" 
+                                name="password"
+                                errors={errors.password}
+                            />
+                            <ErrorMessage name="password" component='small'/>
+                        </Label>
+                        <Button type="submit" value='Sign In' disabled={isLoading}>Sign In</Button>
+                        {
+                            isLoading && <Spinner/>
+                        }
+                    </Form>
+                )}
+            </Formik>
 
-                }
-                {
-                    hasError && 
-                        <label className="si-su-label">
-                            <small className="invalid">Credential are invalid {messageError}</small>
-                        </label>
-                }
-            </form>
-            <div className="account">
-                <p className="account-txt">New to GIFty? <Link to="/login/signup" className="account-link">Create an account.</Link></p>
-            </div>
+           
+            <AccountDiv>
+                <Text>New to GIFty? <Link to="/login/signup" className="account-link">Create an account.</Link></Text>
+            </AccountDiv>
         </>
     )
 }
