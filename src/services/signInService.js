@@ -16,7 +16,6 @@ const signInService = async ({email, password}) => {
             return token
         }
     } catch(e) {
-        console.log(e.response.data.message)
         if(!e.response.data.message){
             throw new Error(e)
         }
