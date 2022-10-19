@@ -12,7 +12,6 @@ const getFavGifService = async ({ jwt }) => {
             })
             .then(res => {
                 const gifs = res.data
-                console.log(gifs)
                 return response(gifs)
             })
         } catch(e) {

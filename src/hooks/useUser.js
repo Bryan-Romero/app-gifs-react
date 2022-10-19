@@ -21,12 +21,10 @@ export default function useUser () {
             window.sessionStorage.setItem('jwt', token)
             setState({ loading: false, error: false })
             setJWT(token)
-            console.log(token);
         }catch(e){
             window.sessionStorage.removeItem('jwt')
             setState({ loading: false, error: true })
             setJWT(null)
-            console.log(e.message)
             throw new Error(e.message)
         }
     }, [setJWT])
@@ -39,7 +37,6 @@ export default function useUser () {
             setState({ loading: false, error: false , register})
         }catch(e){
             setState({ loading: false, error: true, register: '' })
-            console.log(e.message)
             throw new Error(e.message)
         }
     }, [])
@@ -50,7 +47,6 @@ export default function useUser () {
             setFavs(gifs)
         }catch(e){
             setFavs([])
-            console.log(e)
         }
     }, [])
 
@@ -60,7 +56,6 @@ export default function useUser () {
             setFavs(gifs)
         }catch(e){
             setFavs([])
-            console.log(e)
         }
     }, [])
 
