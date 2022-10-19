@@ -9,7 +9,11 @@ export function UserContextProvider({ children }) {
 
   useEffect(() => {
     if(!jwt) return setFavs([])
-    getFavGifService({jwt}).then(setFavs)
+    getFavGifService({jwt}).then(res => {
+      console.log(res)
+      setFavs(res)
+    })
+    console.log(favs)
   }, [jwt])
 
   return (

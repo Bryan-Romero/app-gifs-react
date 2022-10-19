@@ -22,7 +22,6 @@ export default function useUser () {
             setState({ loading: false, error: false })
             setJWT(token)
             console.log(token);
-            
         }catch(e){
             window.sessionStorage.removeItem('jwt')
             setState({ loading: false, error: true })

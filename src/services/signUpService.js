@@ -17,9 +17,11 @@ const signUpService = async ({ name, lastName, email, password }) => {
             return true
         })
     } catch(e) {
-        console.log(e.message)
-        // e.response.data.message
-        throw new Error(e.message)
+        console.log(e.response.data.message)
+        if(!e.response.data.message){
+            throw new Error(e)
+        }
+        throw new Error(e.response.data.message)
     }
     
 }
