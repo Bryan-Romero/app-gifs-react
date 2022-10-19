@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef } from "react";
 import debounce from "just-debounce-it";
 import { Helmet } from "react-helmet";
 import SearchForm from "components/SearchForm";
+import { Title } from './styles'
 
 
 
@@ -54,7 +55,7 @@ export default function SearchGifs({params}){
                     </Helmet>
 
                     <SearchForm initialKeyword={keyword} initialRating={rating} initialLang={decodeURI(lang)}/>
-                    <h3>{decodeURI(keyword)}</h3>
+                    <Title>{decodeURI(keyword)}</Title>
                     <ListOFGifs gifs={gifs}/>
                     <div id="visor" ref={externalRef}></div>
                 </>
