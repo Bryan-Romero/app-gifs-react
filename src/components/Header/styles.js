@@ -25,6 +25,20 @@ export const Button = styled(Link)`
 
 export const ButtonLogout = Button.withComponent('label')
 
+export const Picture = styled.picture`
+    height: 100%;
+    width: 100px;
+    display: grid;
+    place-content: center;
+    margin-right: auto;
+`
+
+export const Img = styled.img`
+    height: auto;
+    width: 100px;
+    cursor: pointer;
+`
+
 /*
 
 .gf-header .signIn:hover, .signUp:hover, .logOut:hover {

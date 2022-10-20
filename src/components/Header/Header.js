@@ -1,7 +1,8 @@
 import useUser from "hooks/useUser";
 import React from "react";
-import { useRoute } from "wouter";
-import { Header as HeaderComponet, Button, ButtonLogout, HeaderContent } from './styles'
+import { Link, useRoute } from "wouter";
+import logo from 'images/logo.png'
+import { Header as HeaderComponet, Button, ButtonLogout, HeaderContent, Picture, Img} from './styles'
 
 const Header = () => {
 
@@ -17,6 +18,11 @@ const Header = () => {
     return(
         <HeaderComponet className="gf-header">
             <HeaderContent>
+                <Picture>
+                    <Link to={'/'}>
+                        <Img src={logo}></Img>
+                    </Link>
+                </Picture>
                 {isLogged
                     ?<>
                         <ButtonLogout type={'primary'} onClick={handleLogOut}>Log out</ButtonLogout>
