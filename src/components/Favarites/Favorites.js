@@ -8,7 +8,7 @@ import SignIn from 'components/SignIn/SignIn'
 
 const Favorites = ({idGif}) => {
 
-    const {isLogged, addFav, favs, deleteFav} = useUser()
+    const {isLogged, addFav, favs, deleteFav, isLoading} = useUser()
     const [showModal, setShowodal] = useState(false)
     
     const listFavs = favs.data !== undefined ? favs.data.map(objGif => objGif.idGif) : []
@@ -35,7 +35,7 @@ const Favorites = ({idGif}) => {
 
     return (
         <>
-            <button className='button-fav' onClick={handleClick}>
+            <button className='button-fav' onClick={handleClick} disabled={isLoading}>
                 <span className='lavel-fav'>
                     {
                         isFav ? <Like /> : <NotLike />

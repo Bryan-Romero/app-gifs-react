@@ -2,7 +2,6 @@ import { useCallback, useContext, useState } from "react";
 import Context from "context/UserContext";
 import signInService from "services/signInService";
 import addFavGifService from "services/addFavGifService";
-import getFavGifService from "services/getFavsGifsService";
 import deleteFavGifService from "services/deleteFavGifService";
 import signUpService from "services/signUpService";
 
@@ -41,22 +40,30 @@ export default function useUser () {
         }
     }, [])
 
-    const addFav = useCallback(async ({ idGif }) => {
-        try{
-            const gifs = await addFavGifService({ idGif, jwt })
-            setFavs(gifs)
-        }catch(e){
+    const addFav = useCallback(({ idGif }) => {
+        setState({ loading: true, error: false })
+        addFavGifService({ idGif, jwt })
+        .then(response => {
+            setFavs(response)
+            setState({ loading: false, error: false })
+        })
+        .catch(() => {
             setFavs([])
-        }
+            setState({ loading: false, error: false })
+        })
     }, [])
 
-    const deleteFav = useCallback(async ({ idGif }) => {
-        try{
-            const gifs = await deleteFavGifService({ idGif, jwt })
-            setFavs(gifs)
-        }catch(e){
+    const deleteFav = useCallback(({ idGif }) => {
+        setState({ loading: true, error: false })
+        deleteFavGifService({ idGif, jwt })
+        .then(response => {
+            setFavs(response)
+            setState({ loading: false, error: false })
+        })
+        .catch(() => {
             setFavs([])
-        }
+            setState({ loading: false, error: false })
+        })
     }, [])
 
     const logOut = useCallback(() => {

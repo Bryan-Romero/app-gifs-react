@@ -25,6 +25,9 @@ const Header = () => {
                 </Picture>
                 {isLogged
                     ?<>
+                        <Button type={'secondary'} to="/favoriteGifs">
+                            Favorites
+                        </Button>
                         <ButtonLogout type={'primary'} onClick={handleLogOut}>Log out</ButtonLogout>
                     </>
                     :<>
