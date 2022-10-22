@@ -70,7 +70,7 @@ const SignIn = ({ onLogin }) => {
                             <ErrorMessage name="dataError" component='small'/>
                         </Label>
                         <Label>
-                            Name
+                            Email
                             <Input 
                                 type='text' 
                                 placeholder="Email" 
