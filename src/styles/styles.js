@@ -19,6 +19,17 @@ export const buttons = {
         &:hover {
             transform: scale(1.05);
         }
+    `,
+    secondary: `
+        cursor: pointer;
+        padding: 8px;
+        background-color: var(--brand-color_4);
+        color: aliceblue;
+        font-size: medium;
+        font-weight: 600;
+        &:hover {
+            transform: scale(1.05);
+        }
     `
 }
 

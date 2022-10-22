@@ -8,6 +8,7 @@ import { UserContextProvider } from "context/UserContext";
 import LogIn from "pages/LogIn/LogIn";
 import Header from "components/Header/Header";
 import { App as AppWindow, AppContent, Title } from './App.styles'
+import Favorites from "pages/Favorites/Favorites";
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
             />
             <Route component={Detail} path="/gif/:id" />
             <Route component={LogIn} path="/login/:type?" />
+            <Route component={Favorites} path="/favoriteGifs" />
             <Route component={() => <h1>404 ERROR :(</h1>} path="/404" />
           </GifsContextProvider>
         </AppContent>
